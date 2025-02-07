@@ -28,11 +28,11 @@ codepart:
 
     ; this interrupt 8h, is called automatically by operating system every 1/18.2 second
     ; add our proc offset and segment address to the original interrupt vectors
-    mov ax, offset newint8
+    mov ax, offset Myintter8
     mov es:[8h*4], ax
     mov es:[8h*4+2], cs
 
-    mov ax, offset newint15
+    mov ax, offset Myintter15
     mov es:[15h*4], ax
     mov es:[15h*4+2], cs
 
@@ -41,7 +41,7 @@ codepart:
     mov dx, 100h
     int 21h
 
-newint15 proc near
+Myintter15 proc near
     cmp ah, 04FH
     jne endint
 
@@ -67,13 +67,12 @@ endint:
     ; this interrupt is called by the os
     ; we don't need to call this ourselves
     jmp dword ptr cs:oldvect15
-newint15 endp
+Myintter15 endp
 
-newint8 proc near
+Myintter8 proc near
     push ax
     push es
 
-    ; video memory segment address
     mov ax, 0B800H
     mov es, ax
 
@@ -112,7 +111,7 @@ end_print:
     ; this interrupt is called by the os
     ; we don't need to call this ourselves
     jmp dword ptr cs:oldvect8
-newint8 endp
+Myintter8 endp
 
 end_program:
 end start
